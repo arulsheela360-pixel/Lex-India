@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>LexIndia | Official Sovereign Justice Portal</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         :root { 
             --navy: #002147; --deep-blue: #001a35; --saffron: #FF9933; 
@@ -27,25 +28,23 @@
         input { width: 100%; padding: 20px; border: 2px solid #cbd5e1; border-radius: 15px; font-size: 16px; outline: none; transition: 0.3s; }
         input:focus { border-color: var(--navy); box-shadow: 0 0 10px rgba(0,33,71,0.1); }
 
-        #legal-report { background: var(--white); border: 2px solid #000; padding: 35px; display: none; margin-top: 20px; position: relative; box-shadow: 12px 12px 0px rgba(0,0,0,0.1); background-image: radial-gradient(#e5e7eb 1px, transparent 1px); background-size: 20px 20px; }
+        #legal-report { background: var(--white); border: 2px solid #000; padding: 35px; display: none; margin-top: 20px; position: relative; box-shadow: 12px 12px 0px rgba(0,0,0,0.1); }
         
-        /* THE OFFICIAL STAMP STYLES */
         .stamp { display: inline-block; padding: 12px 25px; font-weight: 900; border: 6px solid; transform: rotate(-3deg); margin: 20px 0; text-transform: uppercase; font-size: 24px; letter-spacing: 1px; }
-        .status-illegal { color: var(--danger) !important; border-color: var(--danger) !important; background: rgba(185, 28, 28, 0.08); text-shadow: 1px 1px 0px rgba(0,0,0,0.1); }
+        .status-illegal { color: var(--danger) !important; border-color: var(--danger) !important; background: rgba(185, 28, 28, 0.08); }
         .status-lawful { color: var(--green) !important; border-color: var(--green) !important; background: rgba(19, 136, 8, 0.08); }
 
-        .statute-box { border: 1px solid #000; padding: 15px; background: #fff; border-left: 10px solid var(--saffron); margin-bottom: 12px; font-size: 15px; box-shadow: 4px 4px 0px rgba(0,0,0,0.05); }
-        .punish-banner { background: #000; color: white; padding: 18px; text-align: center; font-size: 18px; font-weight: 900; margin: 25px 0; letter-spacing: 1px; }
+        .statute-box { border: 1px solid #000; padding: 15px; background: #fff; border-left: 10px solid var(--saffron); margin-bottom: 12px; font-size: 15px; }
+        .punish-banner { background: #000; color: white; padding: 18px; text-align: center; font-size: 18px; font-weight: 900; margin: 25px 0; }
         
-        .const-section { background: white; padding: 35px; border-radius: 15px; border: 1px solid #ddd; }
-        .article-card { border-left: 6px solid var(--navy); background: #f8fafc; padding: 20px; margin-bottom: 18px; border-radius: 0 10px 10px 0; }
+        .btn-download { background: var(--green); color: white; border: none; padding: 12px 25px; border-radius: 8px; font-weight: 900; cursor: pointer; margin-top: 20px; width: 100%; text-transform: uppercase; }
 
         .bottom-nav-bar { background: var(--deep-blue); padding: 18px; display: flex; justify-content: space-around; border-top: 4px solid var(--saffron); position: sticky; bottom: 0; }
-        .bottom-nav-bar button { background: none; border: none; color: white; font-weight: 900; font-size: 14px; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; }
+        .bottom-nav-bar button { background: none; border: none; color: white; font-weight: 900; font-size: 14px; cursor: pointer; text-transform: uppercase; }
 
         footer { text-align: center; padding: 30px; background: var(--deep-blue); color: #94a3b8; font-size: 11px; }
-        .akilan-sig { color: var(--saffron); font-weight: 900; text-decoration: underline; }
-        #loader { display: none; text-align: center; padding: 25px; font-weight: 900; color: var(--navy); font-size: 14px; }
+        .akilan-sig { color: var(--saffron); font-weight: 900; }
+        #loader { display: none; text-align: center; padding: 25px; font-weight: 900; color: var(--navy); }
     </style>
 </head>
 <body>
@@ -63,46 +62,38 @@
 
 <div class="container" id="home-view">
     <div class="search-panel">
-        <input type="text" id="userInput" placeholder="Search a specific act, section, or crime (e.g. Murder)...">
-        <button class="c-btn" style="width:100%; margin-top:15px; padding:20px; background:var(--navy); color:white; border-radius: 50px; font-size: 14px;" onclick="startLegalSearch()">ANALYZE STATUTE ⚖️</button>
+        <input type="text" id="userInput" placeholder="Search Act, Section, or Crime (e.g. Murder)...">
+        <button class="c-btn" style="width:100%; margin-top:15px; padding:20px; background:var(--navy); color:white; border-radius: 50px;" onclick="startLegalSearch()">ANALYZE STATUTE ⚖️</button>
     </div>
 
-    <div id="loader">🔄 ACCESSING SOVEREIGN DATABASE...</div>
+    <div id="loader">🔄 CONSULTING SOVEREIGN DATABASE...</div>
 
-    <div id="legal-report">
-        <div style="text-align:center; border-bottom: 2px solid #000; padding-bottom: 15px; margin-bottom: 20px;">
-            <div style="font-weight:900; font-size: 14px; letter-spacing: 2px;">SOVEREIGN ADVISORY CERTIFICATE</div>
-            <div id="report-timestamp" style="font-size: 11px; opacity: 0.6; margin-top: 5px;"></div>
+    <div id="report-container">
+        <div id="legal-report">
+            <div style="text-align:center; border-bottom: 2px solid #000; padding-bottom: 15px; margin-bottom: 20px;">
+                <div style="font-weight:900; font-size: 14px; letter-spacing: 2px;">SOVEREIGN ADVISORY CERTIFICATE</div>
+                <div id="report-timestamp" style="font-size: 11px; opacity: 0.6; margin-top: 5px;"></div>
+            </div>
+            <h2 id="res-title" style="margin:0; text-transform: uppercase; color: var(--navy); font-size: 20px;"></h2>
+            <div id="res-status" class="stamp"></div>
+            <div class="statute-box"><b>BNS 2023:</b> <span id="res-bns"></span></div>
+            <div class="statute-box"><b>IPC 1860:</b> <span id="res-ipc"></span></div>
+            <div id="res-punish" class="punish-banner"></div>
+            <p><b>JUDICIAL RATIONALE:</b><br><span id="res-logic" style="font-size: 15px; line-height: 1.6;"></span></p>
+            
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 40px;">
+                <div style="font-size: 10px; border-top: 1px solid #000; padding-top: 5px;">VERIFICATION ID: <br><span id="res-id"></span></div>
+                <div style="text-align: center; font-size: 9px; font-weight: 900; color: var(--gold); border: 5px double var(--gold); border-radius: 50%; width: 90px; height: 90px; display: flex; align-items: center; justify-content: center; transform: rotate(-8deg);">SEAL OF<br>AKILAN</div>
+            </div>
         </div>
-        <h2 id="res-title" style="margin:0; text-transform: uppercase; color: var(--navy); font-size: 20px;"></h2>
-        <div id="res-status" class="stamp"></div>
-        <div class="statute-box"><b>BNS 2023:</b> <span id="res-bns"></span></div>
-        <div class="statute-box"><b>IPC 1860:</b> <span id="res-ipc"></span></div>
-        <div id="res-punish" class="punish-banner"></div>
-        <p><b>JUDICIAL RATIONALE:</b><br><span id="res-logic" style="font-size: 15px; line-height: 1.6; color: #334155;"></span></p>
-        
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 40px;">
-            <div style="font-size: 10px; border-top: 1px solid #000; padding-top: 5px; width: 40%;">OFFICIAL VERIFICATION ID: <br><span id="res-id"></span></div>
-            <div style="text-align: center; font-size: 9px; font-weight: 900; color: var(--gold); border: 5px double var(--gold); border-radius: 50%; width: 90px; height: 90px; display: flex; align-items: center; justify-content: center; transform: rotate(-8deg); line-height: 1.2;">SEAL OF<br>AKILAN</div>
-        </div>
+        <button id="downloadBtn" class="btn-download" style="display:none;" onclick="exportToPNG()">Save Report as PNG ⬇️</button>
     </div>
 </div>
 
 <div class="container" id="about-view" style="display:none">
     <div class="const-section">
-        <h2 style="color: var(--navy); border-bottom: 3px solid var(--saffron); display: inline-block;">India's Constitutional Foundation</h2>
-        <div class="article-card">
-            <h4>Article 14: Equality</h4>
-            <p>Guarantees equality before the law and equal protection of laws within India.</p>
-        </div>
-        <div class="article-card">
-            <h4>Article 21: Right to Life</h4>
-            <p>Protects life and personal liberty, which includes the fundamental Right to Privacy.</p>
-        </div>
-        <div class="article-card">
-            <h4>The BNS Shift</h4>
-            <p>The Bharatiya Nyaya Sanhita (2023) moves India from colonial punitive laws to citizen-centric justice.</p>
-        </div>
+        <h2 style="color: var(--navy); border-bottom: 3px solid var(--saffron); display: inline-block;">Constitutional Foundation</h2>
+        <p>India's legal framework is built on justice, equality, and liberty for all citizens.</p>
     </div>
 </div>
 
@@ -117,8 +108,8 @@
 
 <script>
     let currentL = 'en';
-    // YOUR DIRECT GOOGLE DRIVE URL
-    const JSON_URL = 'https://docs.google.com/uc?export=download&id=1Su_SAzl4o2YqA5R_vjEhN4jGh9NgdtPe';
+    // LINK TO YOUR GITHUB BNS.JSON
+    const JSON_URL = 'https://raw.githubusercontent.com/arulsheela360-pixel/Lex-India/main/bns.json';
 
     function setLang(l) {
         currentL = l;
@@ -137,13 +128,14 @@
         
         const loader = document.getElementById('loader');
         const report = document.getElementById('legal-report');
+        const dlBtn = document.getElementById('downloadBtn');
         loader.style.display = 'block';
         report.style.display = 'none';
+        dlBtn.style.display = 'none';
 
         try {
             let data = null;
-
-            // 1. ATTEMPT DRIVE FETCH
+            // 1. Fetch from GitHub
             try {
                 const res = await fetch(JSON_URL);
                 const bnsLib = await res.json();
@@ -151,23 +143,22 @@
                     query.includes(item.title.toLowerCase()) || 
                     (item.keywords && item.keywords.some(k => query.includes(k.toLowerCase())))
                 );
-            } catch(e) { console.warn("Drive connection blocked or ID invalid. Falling back to AI."); }
+            } catch(e) { console.log("GitHub read error, using AI."); }
 
-            // 2. AI FALLBACK
+            // 2. AI Fallback
             if (!data) {
-                const prompt = `Indian Law BNS 2023 for: "${query}". Return JSON only: {"title":"","status":"CRIMINAL OFFENSE/LAWFUL ACTION","bns":"","ipc":"","punish":"","logic":""}`;
+                const prompt = `Indian BNS 2023 for: "${query}". Return JSON: {"title":"","status":"CRIMINAL OFFENSE/LAWFUL ACTION","bns":"","ipc":"","punish":"","logic":""}`;
                 const aiRes = await fetch(`https://text.pollinations.ai/${encodeURIComponent(prompt)}?model=openai`);
                 const raw = await aiRes.text();
                 data = JSON.parse(raw.match(/\{[\s\S]*\}/)[0]);
             }
 
-            // 3. APPLY CRIMINAL STAMP LOGIC
-            const criminalKeywords = ["murder", "abuse", "theft", "assault", "rape", "fraud", "illegal", "threat", "kill", "insult", "scam"];
+            // 3. UI Update
+            const criminalKeywords = ["murder", "abuse", "theft", "assault", "rape", "fraud", "illegal", "threat", "kill"];
             let isCriminal = data.status.toUpperCase().includes("CRIMINAL") || 
                              criminalKeywords.some(k => query.includes(k));
 
-            // Populate Report
-            document.getElementById('res-title').innerText = data.title || "Legal Summary";
+            document.getElementById('res-title').innerText = data.title || "Statute Report";
             const stamp = document.getElementById('res-status');
             
             if (isCriminal) {
@@ -181,20 +172,28 @@
             document.getElementById('res-bns').innerText = data.bns || "N/A";
             document.getElementById('res-ipc').innerText = data.ipc || "N/A";
             document.getElementById('res-punish').innerText = "PENALTY: " + (data.punish || "Not Specified");
-            document.getElementById('res-logic').innerText = data.logic || "Analyzed under standard Bharatiya Nyaya Sanhita (BNS) protocols.";
+            document.getElementById('res-logic').innerText = data.logic || "Analyzed per BNS 2023 guidelines.";
             document.getElementById('report-timestamp').innerText = "CERTIFIED: " + new Date().toLocaleString();
             document.getElementById('res-id').innerText = "LEX-" + Math.random().toString(36).substr(2, 9).toUpperCase();
             
             report.style.display = 'block';
+            dlBtn.style.display = 'block';
             window.scrollTo({ top: report.offsetTop - 20, behavior: 'smooth' });
 
-        } catch (e) { 
-            alert("Archive System Error. Please ensure Google Drive file sharing is set to 'Anyone with the link'."); 
-        } finally { 
-            loader.style.display = 'none'; 
-        }
+        } catch (e) { alert("Sovereign Database Error."); } 
+        finally { loader.style.display = 'none'; }
+    }
+
+    // FUNCTION TO SAVE AS PNG
+    function exportToPNG() {
+        const report = document.getElementById('legal-report');
+        html2canvas(report).then(canvas => {
+            const link = document.createElement('a');
+            link.download = `LexIndia_Report_${new Date().getTime()}.png`;
+            link.href = canvas.toDataURL("image/png");
+            link.click();
+        });
     }
 </script>
 </body>
-            </html>
-            
+</html>
