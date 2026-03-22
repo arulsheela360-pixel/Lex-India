@@ -20,12 +20,10 @@
         * { box-sizing: border-box; font-family: 'Georgia', serif; }
         body { background: var(--ash); margin: 0; padding-bottom: 50px; color: #1a1a1a; }
         
-        /* Official Government Theme Header */
         header { background: var(--white); padding: 25px; text-align: center; border-bottom: 8px solid var(--navy); box-shadow: 0 2px 10px rgba(0,0,0,0.1); border-top: 8px solid var(--saffron); }
         .emblem { height: 100px; margin-bottom: 12px; }
         h1 { margin: 5px 0; color: var(--gov-blue); letter-spacing: 1px; text-transform: uppercase; font-size: 26px; border-bottom: 1px solid #ddd; display: inline-block; padding-bottom: 5px; }
         
-        /* Navigation Bar */
         nav { background: var(--gov-blue); display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; padding: 12px; position: sticky; top: 0; z-index: 1000; border-bottom: 4px solid var(--green); }
         nav button { background: rgba(255,255,255,0.05); color: white; border: 1px solid rgba(255,255,255,0.3); padding: 10px 20px; cursor: pointer; border-radius: 2px; font-weight: bold; transition: 0.3s; font-size: 14px; text-transform: uppercase; }
         nav button:hover { background: var(--white); color: var(--gov-blue); }
@@ -36,7 +34,6 @@
         .page.active { display: block; }
         @keyframes slideUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Professional Cards */
         .card { background: var(--white); padding: 35px; border-radius: 4px; box-shadow: 0 1px 3px rgba(0,0,0,0.2); border: 1px solid #d1d5db; margin-bottom: 25px; position: relative; }
         .card::before { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 5px; background: var(--navy); }
         
@@ -49,7 +46,6 @@
         .btn-danger { background: #f8f9fa; color: #334155; border: 1px solid #cbd5e1; }
         .btn-danger:hover { background: #e2e8f0; }
 
-        /* Official Report Layout */
         #legal-report { display: none; background: #fff; border: 2px solid #333; padding: 45px; position: relative; background-image: radial-gradient(#eee 1px, transparent 1px); background-size: 20px 20px; }
         .stamp { display: inline-block; padding: 12px 25px; font-weight: 900; border: 6px solid; transform: rotate(-3deg); margin: 25px 0; text-transform: uppercase; font-size: 28px; font-family: 'Arial Black', sans-serif; letter-spacing: 2px; }
         .red-stamp { color: var(--danger); border-color: var(--danger); }
@@ -73,7 +69,7 @@
 <header>
     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Emblem_of_India.svg/1200px-Emblem_of_India.svg.png" class="emblem">
     <h1 id="txt-title">LEXINDIA: SOVEREIGN JUSTICE</h1>
-    <div style="color:var(--green); font-weight:bold; letter-spacing: 4px; margin-top:10px;">सत्यமேவ ஜெயதே | SATYAMEVA JAYATE</div>
+    <div style="color:var(--green); font-weight:bold; letter-spacing: 4px; margin-top:10px;">ஸத்யமேவ ஜயதே | SATYAMEVA JAYATE</div>
 </header>
 
 <nav>
@@ -256,8 +252,9 @@
 
         try {
             const prompt = `Indian Law Analysis. Incident: "${query}". Language: ${lang}. 
+            CRITICAL FACT: Under Indian Law (Article 21 - Right to Privacy), consensual and private masturbation is 100% LEGAL and NOT a crime under BNS or IPC. 
             Task: Provide BNS 2023 section, equivalent IPC section, and punishment. 
-            Label as "ILLEGAL" if crime, "LEGAL" if human right/defense.
+            Label as "ILLEGAL" ONLY if it is a real crime. Label as "LEGAL" if it is a human right, self-defense, or private act.
             Return ONLY JSON: {"t":"Act Name","s":"ILLEGAL/LEGAL","bns":"BNS Section","ipc":"IPC Section","p":"Penalty","l":"Detailed Logic"}`;
 
             const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${key}`, {
@@ -317,5 +314,4 @@
     setLang('en');
 </script>
 </body>
-    </html>
-    
+</html>
