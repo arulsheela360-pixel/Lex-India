@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>LexIndia | Sovereign Justice</title>
+    <script src="https://js.puter.com/v2/"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <style>
@@ -116,7 +117,7 @@
                 <div style="margin-top:50px; border-top:1px solid #ccc; padding-top:20px; font-size:12px; color:#444; text-align:center; line-height:1.5;">
                     <b>LexIndia Digital Advisory Portal</b><br>
                     Consulted & Advised by Akilan, Founder of International Organisation of Peace<br>
-                    Developed by Gemini 3 AI Core Intelligence.
+                    Developed by Gemini 3 AI Core Intelligence via Puter.js
                 </div>
             </div>
             <div class="btn-row" style="background:#f8f9fa; padding:20px; border:1px solid #ddd; margin-top:20px;">
@@ -159,12 +160,6 @@
 </footer>
 
 <script>
-    const API_KEYS = [
-        "AIzaSyAhbbfrY_7SOYkzuj6Oe7amUkH3QhBOAWs",
-        "AIzaSyDyf33OzzxHnSIg9pGVyz2l2-PxPSg9ZJ0",
-        "AIzaSyAdZLAbL2igputem5J6nVcmpeXXmkaezCw"
-    ];
-    let kIdx = 0;
     let lang = 'en';
 
     const translations = {
@@ -247,24 +242,21 @@
         document.getElementById('loader').style.display = 'block';
         document.getElementById('legal-report').style.display = 'none';
 
-        const key = API_KEYS[kIdx];
-        kIdx = (kIdx + 1) % API_KEYS.length;
-
         try {
+            // Using Puter.js for high-limit AI processing
             const prompt = `Indian Law Analysis. Incident: "${query}". Language: ${lang}. 
             CRITICAL FACT: Under Indian Law (Article 21 - Right to Privacy), consensual and private masturbation is 100% LEGAL and NOT a crime under BNS or IPC. 
             Task: Provide BNS 2023 section, equivalent IPC section, and punishment. 
             Label as "ILLEGAL" ONLY if it is a real crime. Label as "LEGAL" if it is a human right, self-defense, or private act.
             Return ONLY JSON: {"t":"Act Name","s":"ILLEGAL/LEGAL","bns":"BNS Section","ipc":"IPC Section","p":"Penalty","l":"Detailed Logic"}`;
 
-            const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${key}`, {
-                method: "POST",
-                headers: {"Content-Type": "application/json"},
-                body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
+            const response = await puter.ai.chat(prompt, { 
+                model: 'google/gemini-3-flash'
             });
 
-            const data = await res.json();
-            const json = JSON.parse(data.candidates[0].content.parts[0].text.match(/\{[\s\S]*\}/)[0]);
+            // Clean response text to find JSON
+            const resText = response.message.content;
+            const json = JSON.parse(resText.match(/\{[\s\S]*\}/)[0]);
 
             document.getElementById('res-title').innerText = json.t;
             const s = document.getElementById('res-status');
@@ -278,8 +270,12 @@
             document.getElementById('res-logic').innerText = json.l;
             
             document.getElementById('legal-report').style.display = 'block';
-        } catch (e) { alert("Key Limit or Service Busy. Please click Analyze again."); }
-        finally { document.getElementById('loader').style.display = 'none'; }
+        } catch (e) { 
+            console.error(e);
+            alert("AI service is busy. Please click Analyze again in a few seconds."); 
+        } finally { 
+            document.getElementById('loader').style.display = 'none'; 
+        }
     }
 
     function resetApp() {
