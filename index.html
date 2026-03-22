@@ -26,28 +26,29 @@
         
         .container { width: 100%; max-width: 950px; margin: 30px auto; padding: 0 20px; }
         .page { display: none; }
-        .page.active { display: block; animation: slideUp 0.5s ease; }
+        .page.active { display: block; animation: slideUp 0.4s ease; }
         @keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        .card { background: var(--white); padding: 40px; border-radius: 2px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); border: 1px solid #cbd5e1; margin-bottom: 30px; position: relative; }
+        .card { background: var(--white); padding: 40px; border-radius: 2px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); border: 1px solid #cbd5e1; margin-bottom: 30px; position: relative; }
         .card::after { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 6px; background: linear-gradient(90deg, var(--saffron), var(--white), var(--green)); }
         
         textarea { width: 100%; height: 180px; padding: 20px; border: 2px solid #e2e8f0; font-size: 17px; margin-bottom: 20px; resize: none; border-radius: 4px; line-height: 1.6; }
         .btn-row { display: flex; gap: 15px; flex-wrap: wrap; }
-        .btn { padding: 18px 30px; border: none; cursor: pointer; font-weight: bold; flex: 1; text-transform: uppercase; transition: 0.2s; min-width: 180px; border-radius: 4px; letter-spacing: 1px; }
+        .btn { padding: 18px 30px; border: none; cursor: pointer; font-weight: bold; flex: 1; text-transform: uppercase; transition: 0.2s; min-width: 150px; border-radius: 4px; }
         .btn-primary { background: var(--gov-blue); color: white; }
         .btn-danger { background: #f8fafc; color: #64748b; border: 1px solid #cbd5e1; }
 
         #legal-report { display: none; border: 3px solid #000; background: #fff; margin-top: 30px; }
-        .stamp { display: inline-block; padding: 12px 24px; font-weight: 900; border: 6px solid; transform: rotate(-3deg); margin: 25px 0; text-transform: uppercase; font-size: 28px; font-family: 'Arial Black', sans-serif; }
+        .stamp { display: inline-block; padding: 12px 24px; font-weight: 900; border: 6px solid; transform: rotate(-3deg); margin: 25px 0; text-transform: uppercase; font-size: 28px; }
         .red-stamp { color: var(--danger); border-color: var(--danger); }
         .green-stamp { color: var(--green); border-color: var(--green); }
         
         .info-strip { border-left: 6px solid var(--gov-blue); background: #f8fafc; padding: 20px; margin: 15px 0; font-size: 16px; line-height: 1.7; }
-        .punish-strip { background: #0f172a; color: #fff; padding: 18px; text-align: center; font-weight: bold; margin: 25px 0; border-radius: 4px; font-size: 18px; border: 1px solid var(--gold); }
+        .punish-strip { background: #0f172a; color: #fff; padding: 18px; text-align: center; font-weight: bold; margin: 25px 0; font-size: 18px; border: 1px solid var(--gold); }
 
         .const-item { border-bottom: 1px dashed #cbd5e1; padding: 20px 0; }
         .const-item h3 { color: var(--gov-blue); margin: 0 0 10px 0; font-size: 20px; }
+
         #loader { display: none; text-align: center; padding: 40px; }
         .spinner { border: 5px solid #f3f3f3; border-top: 5px solid var(--saffron); border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; display: inline-block; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
@@ -64,7 +65,7 @@
 
 <nav>
     <button onclick="showPage('home')" id="nav-home" class="active">INCIDENT ANALYSIS</button>
-    <button onclick="showPage('constitution')" id="nav-const">CONSTITUTION OF INDIA</button>
+    <button onclick="showPage('constitution')" id="nav-const">CONSTITUTION</button>
     <button onclick="showPage('about')" id="nav-about">ABOUT IOP</button>
     <div style="width:2px; background:rgba(255,255,255,0.2); margin:0 10px;"></div>
     <button onclick="changeLang('en')" id="l-en">ENGLISH</button>
@@ -75,13 +76,13 @@
     <div id="home" class="page active">
         <div class="card">
             <h2 id="txt-home-h">Judicial Case Analysis</h2>
-            <p id="txt-home-p" style="color:#64748b;">Consult the Sovereign AI for rapid legal assessment under BNS 2023 & IPC.</p>
+            <p id="txt-home-p" style="color:#64748b;">Legal assessment under BNS 2023 & IPC.</p>
             <textarea id="userInput" placeholder="Describe the incident details here..."></textarea>
             <div class="btn-row">
                 <button class="btn btn-primary" onclick="startProcess()" id="txt-btn-analyze">Analyze Incident ⚖️</button>
-                <button class="btn btn-danger" onclick="resetApp()" id="txt-btn-reset">Clear Registry</button>
+                <button class="btn btn-danger" onclick="resetApp()" id="txt-btn-reset">Clear</button>
             </div>
-            <div id="loader"><div class="spinner"></div><p id="txt-loader">Consulting Supreme Archives...</p></div>
+            <div id="loader"><div class="spinner"></div><p id="txt-loader">Consulting Archives...</p></div>
         </div>
 
         <div id="legal-report">
@@ -95,12 +96,13 @@
                 <div id="res-punish" class="punish-strip"></div>
                 <div class="info-strip"><b><span id="txt-logic-h">Legal Logic</span>:</b><br><span id="res-logic"></span></div>
                 <div style="margin-top:50px; text-align:center; font-size:12px; border-top:1px solid #ddd; padding-top:20px;">
-                    <b>LexIndia Sovereign Advisory Portal</b><br>Advised by Akilan, Founder of International Organisation of Peace
+                    <b>LexIndia Sovereign Advisory Portal</b><br>
+                    Founded by Akilan, International Organisation of Peace
                 </div>
             </div>
             <div class="btn-row" style="padding:20px; background:#f8fafc;">
-                <button class="btn btn-primary" onclick="exportPNG()">Download PNG</button>
-                <button class="btn btn-primary" onclick="exportPDF()">Download PDF</button>
+                <button class="btn btn-primary" onclick="exportPNG()">SAVE PNG</button>
+                <button class="btn btn-primary" onclick="exportPDF()">SAVE PDF</button>
             </div>
         </div>
     </div>
@@ -121,13 +123,12 @@
                 <h2 style="margin:10px 0; font-size:32px;">AKILAN</h2>
                 <p id="txt-founder-p" style="font-size:17px; opacity:0.9;"></p>
             </div>
-            <p id="txt-about-p2" style="font-style:italic; color:#64748b;"></p>
         </div>
     </div>
 </div>
 
 <footer>
-    <b>GOVERNMENT OF INDIA ADVISORY FORMAT COMPLIANT</b><br>
+    <b>GOVERNMENT ADVISORY FORMAT</b><br>
     © 2026 International Organisation of Peace.
 </footer>
 
@@ -137,39 +138,37 @@
 
     const translations = {
         en: {
-            title: "LEXINDIA: SOVEREIGN JUSTICE", homeH: "Judicial Case Analysis", homeP: "BNS 2023 & IPC Comparison Analysis",
-            btnA: "Analyze Incident ⚖️", btnR: "Clear Registry", load: "Consulting Supreme Archives...",
-            repH: "OFFICIAL LEGAL ADVISORY", logicH: "Legal Logic & Explanation",
+            title: "LEXINDIA: SOVEREIGN JUSTICE", homeH: "Judicial Case Analysis", homeP: "BNS 2023 & IPC Comparison",
+            btnA: "Analyze Incident ⚖️", btnR: "Clear", load: "Consulting Archives...",
+            repH: "OFFICIAL LEGAL ADVISORY", logicH: "Legal Logic",
             aboutH: "International Organisation of Peace", 
-            aboutP1: "The IOP is a global initiative dedicated to social harmony through legal awareness. LexIndia bridges the gap between complex laws and the common citizen, ensuring that justice is accessible to all through sovereign AI technology.",
-            aboutP2: "LexIndia upholds the values of Justice, Liberty, Equality, and Fraternity.",
+            aboutP1: "The IOP is a global initiative dedicated to social harmony through legal awareness. LexIndia bridges the gap between laws and citizens, providing instant clarity on constitutional rights.",
             founderH: "Founder & Advisor", 
-            founderP: "Akilan, the visionary behind IOP, established this platform to provide instantaneous legal clarity. He is dedicated to promoting constitutional sovereignty and legal literacy across the nation.",
-            constH: "The Constitution of India",
+            founderP: "Akilan founded this platform to provide legal clarity and promote constitutional literacy for every citizen.",
+            constH: "Constitution of India",
             constData: [
-                {t:"The Preamble", d:"WE, THE PEOPLE OF INDIA, having solemnly resolved to constitute India into a SOVEREIGN SOCIALIST SECULAR DEMOCRATIC REPUBLIC."},
-                {t:"Article 21: Life and Liberty", d:"No person shall be deprived of his life or personal liberty except according to procedure established by law."},
-                {t:"Article 14: Equality before Law", d:"The State shall not deny to any person equality before the law or the equal protection of the laws."},
-                {t:"Article 19: Freedom of Speech", d:"All citizens shall have the right to freedom of speech and expression."},
-                {t:"Article 32: Constitutional Remedies", d:"The right to move the Supreme Court for the enforcement of rights. Known as the Heart and Soul of the Constitution."}
+                {t:"The Preamble", d:"India is a Sovereign Socialist Secular Democratic Republic."},
+                {t:"Article 21", d:"Protection of Life and Personal Liberty. Private consensual acts are protected under this right."},
+                {t:"Article 14", d:"Equality before the law and equal protection of laws."},
+                {t:"Article 19", d:"Right to Freedom of Speech and Expression."},
+                {t:"Article 32", d:"Right to Constitutional Remedies."}
             ]
         },
         ta: {
-            title: "லெக்ஸ்இந்தியா: இறையாண்மை நீதி", homeH: "நீதித்துறை வழக்கு ஆய்வு", homeP: "சட்ட ஒப்பீடு மற்றும் ஆய்வு (BNS 2023 & IPC)",
-            btnA: "ஆய்வு செய் ⚖️", btnR: "பதிவேட்டை நீக்கு", load: "ஆவணங்களைச் சரிபார்க்கிறது...",
-            repH: "அதிகாரப்பூர்வ சட்ட ஆலோசனை", logicH: "சட்ட விளக்கம் மற்றும் தர்க்கம்",
-            aboutH: "சர்வதேச அமைதி அமைப்பு (IOP)", 
-            aboutP1: "IOP என்பது சட்ட விழிப்புணர்வு மூலம் சமூக நல்லிணக்கத்தை ஏற்படுத்துவதற்காக அர்ப்பணிக்கப்பட்ட ஒரு உலகளாவிய முயற்சியாகும். லெக்ஸ்இந்தியா சிக்கலான சட்டங்களுக்கும் சாதாரண குடிமகனுக்கும் இடையிலான இடைவெளியைக் குறைக்கிறது.",
-            aboutP2: "நீதி, சுதந்திரம், சமத்துவம் மற்றும் சகோதரத்துவம் ஆகிய முகப்புரையின் மதிப்புகளை லெக்ஸ்இந்தியா நிலைநாட்டுகிறது.",
+            title: "லெக்ஸ்இந்தியா: இறையாண்மை நீதி", homeH: "வழக்கு ஆய்வு", homeP: "சட்ட ஒப்பீடு மற்றும் ஆய்வு",
+            btnA: "ஆய்வு செய் ⚖️", btnR: "நீக்கு", load: "ஆவணங்களைச் சரிபார்க்கிறது...",
+            repH: "சட்ட ஆலோசனை", logicH: "சட்ட விளக்கம்",
+            aboutH: "சர்வதேச அமைதி அமைப்பு", 
+            aboutP1: "சட்ட விழிப்புணர்வு மூலம் சமூக நல்லிணக்கத்தை ஏற்படுத்துவதற்காக IOP நிறுவப்பட்டது.",
             founderH: "நிறுவனர் மற்றும் ஆலோசகர்", 
-            founderP: "அகிலன், உடனடி சட்டத் தெளிவை வழங்க இந்தத் தளத்தை நிறுவினார். அரசியலமைப்பு இறையாண்மையை மேம்படுத்துவதில் அவர் தீவிரமாக செயல்படுகிறார்.",
-            constH: "இந்திய அரசியலமைப்புச் சட்டம்",
+            founderP: "சட்ட விழிப்புணர்வை மேம்படுத்த அகிலனால் நிறுவப்பட்டது.",
+            constH: "இந்திய அரசியலமைப்பு",
             constData: [
-                {t:"முகப்புரை", d:"இந்திய மக்களாகிய நாம், இந்தியாவை ஒரு இறையாண்மை கொண்ட, சமதர்ம, மதச்சார்பற்ற, ஜனநாயகக் குடியரசாக உருவாக்க உறுதிபூண்டுள்ளோம்."},
-                {t:"பிரிவு 21: உயிர் மற்றும் சுதந்திரம்", d:"சட்டத்தால் நிறுவப்பட்ட நடைமுறையின்படி அன்றி எந்தவொரு நபரின் உயிரும் அல்லது தனிப்பட்ட சுதந்திரமும் பறிக்கப்படக்கூடாது."},
-                {t:"பிரிவு 14: சட்டத்தின் முன் சமம்", d:"சட்டத்தின் முன் அனைவரும் சமம் மற்றும் சட்டத்தின் பாதுகாப்பை அனைவரும் சமமாகப் பெற உரிமை உண்டு."},
-                {t:"பிரிவு 19: பேச்சு சுதந்திரம்", d:"அனைத்து குடிமக்களும் பேச்சு மற்றும் கருத்து சுதந்திரத்திற்கான உரிமையைக் கொண்டுள்ளனர்."},
-                {t:"பிரிவு 32: அரசியலமைப்பு தீர்வுகள்", d:"உரிமைகளை நடைமுறைப்படுத்த உச்ச நீதிமன்றத்தை அணுகும் உரிமை."}
+                {t:"முகப்புரை", d:"இந்தியா ஒரு இறையாண்மை கொண்ட குடியரசு."},
+                {t:"பிரிவு 21", d:"உயிர் மற்றும் தனிப்பட்ட சுதந்திரத்திற்கான உரிமை. தனிப்பட்ட விருப்பமான செயல்கள் இதன் கீழ் பாதுகாக்கப்படுகின்றன."},
+                {t:"பிரிவு 14", d:"சட்டத்தின் முன் அனைவரும் சமம்."},
+                {t:"பிரிவு 19", d:"பேச்சு மற்றும் கருத்து சுதந்திரம்."},
+                {t:"பிரிவு 32", d:"அரசியலமைப்பு தீர்வுகள்."}
             ]
         }
     };
@@ -187,7 +186,6 @@
         document.getElementById('txt-logic-h').innerText = d.logicH;
         document.getElementById('txt-about-h').innerText = d.aboutH;
         document.getElementById('txt-about-p1').innerText = d.aboutP1;
-        document.getElementById('txt-about-p2').innerText = d.aboutP2;
         document.getElementById('txt-founder-h').innerText = d.founderH;
         document.getElementById('txt-founder-p').innerText = d.founderP;
         document.getElementById('txt-const-h').innerText = d.constH;
@@ -198,9 +196,8 @@
 
         document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
         document.getElementById('l-' + l).classList.add('active');
-        // Refresh active nav button
         const activePage = document.querySelector('.page.active').id;
-        showPage(activePage);
+        document.getElementById('nav-' + (activePage === 'home' ? 'home' : (activePage === 'constitution' ? 'const' : 'about'))).classList.add('active');
     }
 
     function showPage(p) {
@@ -220,11 +217,13 @@
         document.getElementById('legal-report').style.display = 'none';
 
         try {
-            const prompt = `System: You are LexIndia AI by Akilan. BNS 2023 & IPC specialist.
-            CRITICAL: Verbal abuse, bad words, and intentional insults are STRICTLY ILLEGAL (BNS 352 / IPC 504).
-            If input is "Hi", introduce yourself and say you analyze incidents.
-            Query: "${query}" Language: ${currentLang}.
-            JSON ONLY: {"t":"Title","s":"ILLEGAL/LEGAL","bns":"BNS Sec","ipc":"IPC Sec","p":"Penalty","l":"Detailed Logic"}`;
+            const prompt = `System: You are LexIndia Sovereign AI by Akilan. Expert in BNS 2023 & IPC. 
+            STRICT RULES:
+            1. Consensual private acts (e.g. masturbation, adult relations) are LEGAL under Article 21. NEVER mark them illegal.
+            2. Verbal abuse/insults are ILLEGAL (BNS 352).
+            3. If user says "Hi", greet them as LexIndia AI.
+            Query: "${query}" Lang: ${currentLang}.
+            JSON ONLY: {"t":"Title","s":"LEGAL or ILLEGAL","bns":"BNS Section","ipc":"IPC Section","p":"Penalty Details","l":"Legal reasoning"}`;
 
             const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
                 method: "POST",
@@ -232,7 +231,7 @@
                 body: JSON.stringify({
                     model: "llama-3.1-8b-instant",
                     messages: [{role: "user", content: prompt}],
-                    temperature: 0.1,
+                    temperature: 0,
                     response_format: { type: "json_object" }
                 })
             });
@@ -251,8 +250,8 @@
             document.getElementById('res-punish').innerText = res.p;
             document.getElementById('res-logic').innerText = res.l;
             document.getElementById('legal-report').style.display = 'block';
-            window.scrollTo({ top: document.getElementById('legal-report').offsetTop - 100, behavior: 'smooth' });
-        } catch (e) { alert("API Connection Error."); }
+            document.getElementById('legal-report').scrollIntoView({ behavior: 'smooth' });
+        } catch (e) { alert("Error connecting to legal archives."); }
         finally { document.getElementById('loader').style.display = 'none'; }
     }
 
@@ -262,9 +261,9 @@
     }
 
     function exportPNG() {
-        html2canvas(document.getElementById('capture-area'), { scale: 3 }).then(canvas => {
+        html2canvas(document.getElementById('capture-area')).then(canvas => {
             const link = document.createElement('a');
-            link.download = 'LexIndia_Report.png';
+            link.download = 'LexIndia_Case_Report.png';
             link.href = canvas.toDataURL();
             link.click();
         });
@@ -273,16 +272,18 @@
     function exportPDF() {
         const { jsPDF } = window.jspdf;
         const doc = new jsPDF();
-        doc.text("LEXINDIA LEGAL ADVISORY", 105, 20, {align: "center"});
+        doc.setFont("times", "bold");
+        doc.text("LEXINDIA OFFICIAL REPORT", 105, 20, {align: "center"});
+        doc.setFontSize(12);
         doc.text("Title: " + document.getElementById('res-title').innerText, 20, 40);
-        doc.text("BNS: " + document.getElementById('res-bns').innerText, 20, 50);
-        const l = doc.splitTextToSize("Logic: " + document.getElementById('res-logic').innerText, 170);
-        doc.text(l, 20, 65);
+        doc.text("Status: " + document.getElementById('res-status').innerText, 20, 50);
+        const splitLogic = doc.splitTextToSize("Logic: " + document.getElementById('res-logic').innerText, 170);
+        doc.text(splitLogic, 20, 70);
         doc.save('LexIndia_Report.pdf');
     }
 
     changeLang('en');
 </script>
 </body>
-                                            </html>
-                                            
+    </html>
+    
