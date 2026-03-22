@@ -119,7 +119,7 @@
 
 <footer>
     <b>GOVERNMENT OF INDIA ADVISORY FORMAT</b><br>
-    © 2026 International Organisation of Peace. Justice for all.
+    © 2026 International Organisation of Peace.
 </footer>
 
 <script>
@@ -132,26 +132,20 @@
             btnA: "Analyze Incident ⚖️", btnR: "Reset Case", load: "Consulting Supreme Archives...",
             repH: "OFFICIAL LEGAL ADVISORY", logicH: "Legal Explanation",
             aboutH: "International Organisation of Peace", 
-            aboutP1: "LexIndia is a sovereign legal intelligence platform dedicated to providing instant clarity on Indian Laws for all citizens.",
-            founderH: "Founder & Advisor", founderP: "Akilan founded the IOP to bridge the gap between complex legal acts and common public understanding.",
+            aboutP1: "Empowering citizens with sovereign legal intelligence.",
+            founderH: "Founder & Advisor", founderP: "Akilan founded the IOP to promote legal awareness and constitutional justice.",
             constH: "Constitution of India",
-            constData: [
-                {t:"The Preamble", d:"Declares India a Sovereign, Socialist, Secular, Democratic Republic."},
-                {t:"Article 21", d:"Protection of Life and Personal Liberty - The foundation of privacy rights in India."}
-            ]
+            constData: [{t:"Preamble", d:"India is a Sovereign Republic."}, {t:"Art 21", d:"Right to Life & Liberty."}]
         },
         ta: {
             title: "லெக்ஸ்இந்தியா: இறையாண்மை நீதி", homeH: "நீதித்துறை வழக்கு ஆய்வு", homeP: "சட்ட ஒப்பீடு மற்றும் ஆய்வு",
             btnA: "ஆய்வு செய் ⚖️", btnR: "மீட்டமை", load: "ஆவணங்களைச் சரிபார்க்கிறது...",
             repH: "அதிகாரப்பூர்வ சட்ட ஆலோசனை", logicH: "சட்ட விளக்கம்",
             aboutH: "சர்வதேச அமைதி அமைப்பு", 
-            aboutP1: "லெக்ஸ்இந்தியா என்பது அனைத்து குடிமக்களுக்கும் இந்தியச் சட்டங்கள் குறித்த உடனடி தெளிவை வழங்குவதற்காக அர்ப்பணிக்கப்பட்ட ஒரு இறையாண்மை கொண்ட சட்ட தளமாகும்.",
-            founderH: "நிறுவனர் மற்றும் ஆலோசகர்", founderP: "சிக்கலான சட்டச் செயல்களுக்கும் பொது மக்களுக்கும் இடையிலான இடைவெளியைக் குறைக்க அகிலன் IOP-ஐ நிறுவினார்.",
+            aboutP1: "குடிமக்களுக்கு சட்ட அறிவை வழங்குதல்.",
+            founderH: "நிறுவனர் மற்றும் ஆலோசகர்", founderP: "சட்ட விழிப்புணர்வை ஏற்படுத்த அகிலனால் நிறுவப்பட்டது.",
             constH: "இந்திய அரசியலமைப்பு",
-            constData: [
-                {t:"முகப்புரை", d:"இந்தியா ஒரு இறையாண்மை கொண்ட குடியரசு என்று அறிவிக்கிறது."},
-                {t:"பிரிவு 21", d:"உயிர் மற்றும் தனிப்பட்ட சுதந்திரத்தைப் பாதுகாத்தல் - இந்தியாவில் தனியுரிமை உரிமைகளின் அடிப்படை."}
-            ]
+            constData: [{t:"முகப்புரை", d:"இந்தியா ஒரு இறையாண்மை கொண்ட குடியரசு."}, {t:"பிரிவு 21", d:"உயிர் மற்றும் சுதந்திரத்திற்கான உரிமை."}]
         }
     };
 
@@ -173,12 +167,11 @@
         document.getElementById('txt-const-h').innerText = d.constH;
         
         let cHtml = "";
-        d.constData.forEach(i => cHtml += `<div style="margin-bottom:20px;"><h3>${i.t}</h3><p>${i.d}</p></div>`);
+        d.constData.forEach(i => cHtml += `<div><h3>${i.t}</h3><p>${i.d}</p></div>`);
         document.getElementById('const-list').innerHTML = cHtml;
 
         document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
-        const activeBtn = document.getElementById('l-' + l);
-        if(activeBtn) activeBtn.classList.add('active');
+        document.getElementById('l-' + l).classList.add('active');
     }
 
     function showPage(p) {
@@ -187,7 +180,6 @@
         document.getElementById(p).classList.add('active');
         const navBtn = document.getElementById('nav-' + p.substring(0,4).trim());
         if(navBtn) navBtn.classList.add('active');
-        // Keep language buttons from losing state
         document.getElementById('l-' + currentLang).classList.add('active');
     }
 
@@ -198,12 +190,16 @@
         document.getElementById('legal-report').style.display = 'none';
 
         try {
+            // UPDATED SYSTEM PROMPT: Strict on Verbal Abuse and Dignity
             const prompt = `System: You are LexIndia Judicial AI. 
-            Context: Analyze the incident under Bharatiya Nyaya Sanhita (BNS) 2023 and IPC. 
-            IMPORTANT: Under Article 21, private consensual acts are 100% LEGAL. 
+            Analyze the incident under Bharatiya Nyaya Sanhita (BNS) 2023 and IPC. 
+            CRITICAL RULES:
+            1. Verbal abuse, intentional insults (BNS 352/IPC 504), and criminal intimidation (BNS 351/IPC 506) are strictly ILLEGAL.
+            2. Under Article 21, private consensual acts between adults are LEGAL.
+            3. Use strong legal logic.
             Incident: "${query}" 
             Language: ${currentLang}.
-            Return JSON ONLY: {"t":"Act Name","s":"ILLEGAL/LEGAL","bns":"BNS Section","ipc":"IPC Section","p":"Penalty/Status","l":"Legal Logic"}`;
+            Return JSON ONLY: {"t":"Act Name","s":"ILLEGAL/LEGAL","bns":"BNS 2023 Sec","ipc":"IPC Sec","p":"Penalty/Action","l":"Legal Logic"}`;
 
             const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
                 method: "POST",
@@ -230,11 +226,9 @@
             document.getElementById('res-punish').innerText = res.p;
             document.getElementById('res-logic').innerText = res.l;
             document.getElementById('legal-report').style.display = 'block';
-            
-            // Scroll to report
             document.getElementById('legal-report').scrollIntoView({ behavior: 'smooth' });
         } catch (e) {
-            alert("Digital Archives temporarily unreachable. Please check connection.");
+            alert("Archive Connection Error.");
         } finally {
             document.getElementById('loader').style.display = 'none';
         }
@@ -243,46 +237,31 @@
     function resetApp() {
         document.getElementById('userInput').value = "";
         document.getElementById('legal-report').style.display = 'none';
-        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     function exportPNG() {
-        const target = document.getElementById('capture-area');
-        html2canvas(target, { scale: 2 }).then(canvas => {
+        html2canvas(document.getElementById('capture-area'), { scale: 2 }).then(canvas => {
             const link = document.createElement('a');
-            link.download = 'LexIndia_Advisory_Report.png';
-            link.href = canvas.toDataURL("image/png");
+            link.download = 'LexIndia_Advisory.png';
+            link.href = canvas.toDataURL();
             link.click();
         });
     }
 
     function exportPDF() {
         const { jsPDF } = window.jspdf;
-        const doc = new jsPDF('p', 'mm', 'a4');
-        const title = document.getElementById('res-title').innerText;
-        const bns = document.getElementById('res-bns').innerText;
-        const logic = document.getElementById('res-logic').innerText;
-
-        doc.setFont("times", "bold");
-        doc.setFontSize(18);
-        doc.text("LEXINDIA OFFICIAL LEGAL ADVISORY", 105, 20, {align: "center"});
-        doc.setFontSize(14);
-        doc.text("Subject: " + title, 20, 40);
-        doc.text("BNS Section: " + bns, 20, 50);
-        doc.line(20, 55, 190, 55);
-        doc.setFont("times", "normal");
+        const doc = new jsPDF();
+        doc.setFontSize(16);
+        doc.text("LEXINDIA LEGAL ADVISORY", 105, 20, {align: "center"});
         doc.setFontSize(12);
-        const splitLogic = doc.splitTextToSize("Legal Logic: " + logic, 170);
-        doc.text(splitLogic, 20, 65);
-        
-        doc.setFontSize(10);
-        doc.text("Generated by LexIndia | Founder: Akilan", 105, 280, {align: "center"});
+        doc.text("Title: " + document.getElementById('res-title').innerText, 20, 40);
+        doc.text("BNS Section: " + document.getElementById('res-bns').innerText, 20, 50);
+        const splitLogic = doc.splitTextToSize("Logic: " + document.getElementById('res-logic').innerText, 170);
+        doc.text(splitLogic, 20, 60);
         doc.save('LexIndia_Report.pdf');
     }
 
-    // Init
     changeLang('en');
 </script>
 </body>
-    </html>
-    
+</html>
