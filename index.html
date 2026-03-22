@@ -7,53 +7,65 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <style>
-        :root { --navy: #002147; --saffron: #FF9933; --green: #138808; --danger: #b91c1c; --white: #ffffff; --ash: #f1f5f9; --gold: #D4AF37; }
+        :root { 
+            --navy: #002147; 
+            --saffron: #FF9933; 
+            --green: #138808; 
+            --danger: #b91c1c; 
+            --white: #ffffff; 
+            --ash: #f8f9fa; 
+            --gold: #856404; 
+            --gov-blue: #003366;
+        }
         * { box-sizing: border-box; font-family: 'Georgia', serif; }
         body { background: var(--ash); margin: 0; padding-bottom: 50px; color: #1a1a1a; }
         
-        /* Premium Header */
-        header { background: var(--white); padding: 20px; text-align: center; border-bottom: 6px solid var(--saffron); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
-        .emblem { height: 90px; margin-bottom: 10px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2)); }
-        h1 { margin: 5px 0; color: var(--navy); letter-spacing: 1px; text-transform: uppercase; font-size: 24px; }
+        /* Official Government Theme Header */
+        header { background: var(--white); padding: 25px; text-align: center; border-bottom: 8px solid var(--navy); box-shadow: 0 2px 10px rgba(0,0,0,0.1); border-top: 8px solid var(--saffron); }
+        .emblem { height: 100px; margin-bottom: 12px; }
+        h1 { margin: 5px 0; color: var(--gov-blue); letter-spacing: 1px; text-transform: uppercase; font-size: 26px; border-bottom: 1px solid #ddd; display: inline-block; padding-bottom: 5px; }
         
         /* Navigation Bar */
-        nav { background: var(--navy); display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; padding: 12px; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.3); }
-        nav button { background: rgba(255,255,255,0.1); color: white; border: 1px solid var(--saffron); padding: 10px 18px; cursor: pointer; border-radius: 4px; font-weight: bold; transition: 0.3s; font-size: 14px; }
-        nav button:hover { background: var(--saffron); color: var(--navy); }
-        nav button.active { background: var(--saffron); color: var(--navy); border-color: var(--white); }
+        nav { background: var(--gov-blue); display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; padding: 12px; position: sticky; top: 0; z-index: 1000; border-bottom: 4px solid var(--green); }
+        nav button { background: rgba(255,255,255,0.05); color: white; border: 1px solid rgba(255,255,255,0.3); padding: 10px 20px; cursor: pointer; border-radius: 2px; font-weight: bold; transition: 0.3s; font-size: 14px; text-transform: uppercase; }
+        nav button:hover { background: var(--white); color: var(--gov-blue); }
+        nav button.active { background: var(--white); color: var(--gov-blue); border-color: var(--saffron); box-shadow: 0 0 8px rgba(255,153,51,0.5); }
 
-        .container { width: 100%; max-width: 900px; margin: 20px auto; padding: 0 15px; }
+        .container { width: 100%; max-width: 900px; margin: 30px auto; padding: 0 15px; }
         .page { display: none; animation: slideUp 0.4s ease-out; }
         .page.active { display: block; }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Cards & UI */
-        .card { background: var(--white); padding: 30px; border-radius: 8px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); border-top: 4px solid var(--navy); margin-bottom: 25px; }
-        textarea { width: 100%; height: 140px; padding: 15px; border: 2px solid #cbd5e1; border-radius: 8px; font-size: 16px; margin-bottom: 15px; resize: none; background: #fdfdfd; }
+        /* Professional Cards */
+        .card { background: var(--white); padding: 35px; border-radius: 4px; box-shadow: 0 1px 3px rgba(0,0,0,0.2); border: 1px solid #d1d5db; margin-bottom: 25px; position: relative; }
+        .card::before { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 5px; background: var(--navy); }
+        
+        textarea { width: 100%; height: 150px; padding: 15px; border: 1px solid #94a3b8; border-radius: 2px; font-size: 16px; margin-bottom: 15px; resize: none; background: #fff; font-family: 'Times New Roman', serif; }
         
         .btn-row { display: flex; gap: 10px; margin-bottom: 15px; }
-        .btn { padding: 15px 25px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; flex: 1; text-transform: uppercase; font-size: 14px; letter-spacing: 0.5px; }
-        .btn-primary { background: var(--navy); color: white; }
-        .btn-danger { background: #64748b; color: white; }
+        .btn { padding: 15px 25px; border: 1px solid transparent; border-radius: 2px; cursor: pointer; font-weight: bold; flex: 1; text-transform: uppercase; font-size: 14px; letter-spacing: 1px; transition: 0.2s; }
+        .btn-primary { background: var(--gov-blue); color: white; }
+        .btn-primary:hover { background: #002244; }
+        .btn-danger { background: #f8f9fa; color: #334155; border: 1px solid #cbd5e1; }
+        .btn-danger:hover { background: #e2e8f0; }
 
-        /* Report Styles */
-        #legal-report { display: none; background: white; border: 2px solid #000; padding: 40px; position: relative; box-shadow: inset 0 0 50px rgba(0,0,0,0.02); }
-        .stamp { display: inline-block; padding: 15px 30px; font-weight: 900; border: 8px solid; transform: rotate(-4deg); margin: 25px 0; text-transform: uppercase; font-size: 32px; font-family: sans-serif; }
+        /* Official Report Layout */
+        #legal-report { display: none; background: #fff; border: 2px solid #333; padding: 45px; position: relative; background-image: radial-gradient(#eee 1px, transparent 1px); background-size: 20px 20px; }
+        .stamp { display: inline-block; padding: 12px 25px; font-weight: 900; border: 6px solid; transform: rotate(-3deg); margin: 25px 0; text-transform: uppercase; font-size: 28px; font-family: 'Arial Black', sans-serif; letter-spacing: 2px; }
         .red-stamp { color: var(--danger); border-color: var(--danger); }
         .green-stamp { color: var(--green); border-color: var(--green); }
 
-        .info-strip { background: #f8fafc; border-left: 6px solid var(--saffron); padding: 15px; margin: 15px 0; font-size: 15px; line-height: 1.6; }
-        .punish-strip { background: #1a1a1a; color: #fff; padding: 20px; text-align: center; font-weight: bold; font-size: 18px; margin: 20px 0; border-radius: 4px; }
+        .info-strip { background: #fff; border: 1px solid #e2e8f0; border-left: 6px solid var(--gov-blue); padding: 18px; margin: 15px 0; font-size: 15px; line-height: 1.6; }
+        .punish-strip { background: #333; color: #fff; padding: 20px; text-align: center; font-weight: bold; font-size: 18px; margin: 20px 0; border-radius: 0; text-transform: uppercase; letter-spacing: 1px; }
         
-        /* Constitution Details */
         .const-box { border-bottom: 1px solid #e2e8f0; padding: 20px 0; }
-        .const-box h4 { margin: 0 0 10px 0; color: var(--navy); font-size: 20px; }
+        .const-box h4 { margin: 0 0 10px 0; color: var(--gov-blue); font-size: 22px; text-decoration: underline; text-underline-offset: 5px; }
         
-        #loader { display: none; text-align: center; color: var(--navy); margin: 20px; font-weight: bold; }
-        .spinner { border: 4px solid #f3f3f3; border-top: 4px solid var(--saffron); border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; display: inline-block; }
+        #loader { display: none; text-align: center; color: var(--gov-blue); margin: 20px; font-weight: bold; }
+        .spinner { border: 4px solid #f3f3f3; border-top: 4px solid var(--saffron); border-radius: 50%; width: 45px; height: 45px; animation: spin 1s linear infinite; display: inline-block; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        footer { text-align: center; color: #64748b; padding: 40px; font-size: 14px; border-top: 1px solid #e2e8f0; }
+        footer { text-align: center; color: #475569; padding: 50px; font-size: 14px; border-top: 2px solid #cbd5e1; background: #fff; }
     </style>
 </head>
 <body>
@@ -61,14 +73,14 @@
 <header>
     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Emblem_of_India.svg/1200px-Emblem_of_India.svg.png" class="emblem">
     <h1 id="txt-title">LEXINDIA: SOVEREIGN JUSTICE</h1>
-    <div style="color:var(--green); font-weight:bold; letter-spacing: 3px;">सत्यமேவ ஜெயதே | SATYAMEVA JAYATE</div>
+    <div style="color:var(--green); font-weight:bold; letter-spacing: 4px; margin-top:10px;">सत्यமேவ ஜெயதே | SATYAMEVA JAYATE</div>
 </header>
 
 <nav>
     <button onclick="showPage('home')" id="nav-home" class="active">INCIDENT</button>
     <button onclick="showPage('constitution')" id="nav-const">CONSTITUTION</button>
     <button onclick="showPage('about')" id="nav-about">ABOUT</button>
-    <div style="width:2px; background:var(--saffron); margin:0 5px;"></div>
+    <div style="width:1px; background:rgba(255,255,255,0.4); margin:0 10px;"></div>
     <button onclick="setLang('en')" id="l-en">ENGLISH</button>
     <button onclick="setLang('ta')" id="l-ta">தமிழ்</button>
 </nav>
@@ -78,7 +90,7 @@
     <div id="home" class="page active">
         <div class="card">
             <h2 id="txt-home-h">Judicial Case Analysis</h2>
-            <p id="txt-home-p" style="color:#64748b;">Enter incident details below for BNS 2023 & IPC comparison.</p>
+            <p id="txt-home-p" style="color:#475569; font-style: italic;">Enter incident details below for BNS 2023 & IPC comparison.</p>
             <textarea id="userInput" placeholder="Type here..."></textarea>
             <div class="btn-row">
                 <button class="btn btn-primary" onclick="startProcess()" id="txt-btn-analyze">Analyze Incident ⚖️</button>
@@ -89,10 +101,10 @@
 
         <div id="legal-report" class="card">
             <div id="capture-area" style="padding:20px;">
-                <center><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Emblem_of_India.svg/1200px-Emblem_of_India.svg.png" height="60"></center>
-                <h3 style="text-align:center; border-bottom: 2px solid #000; padding-bottom:10px;" id="txt-rep-h">OFFICIAL LEGAL ADVISORY</h3>
+                <center><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Emblem_of_India.svg/1200px-Emblem_of_India.svg.png" height="70"></center>
+                <h3 style="text-align:center; border-bottom: 3px double #000; padding-bottom:15px; margin-bottom:25px;" id="txt-rep-h">OFFICIAL LEGAL ADVISORY</h3>
                 
-                <h2 id="res-title" style="margin-bottom:5px; color:var(--navy);"></h2>
+                <h2 id="res-title" style="margin-bottom:5px; color:var(--gov-blue);"></h2>
                 <div id="res-status" class="stamp"></div>
 
                 <div class="info-strip"><b>BNS 2023:</b> <span id="res-bns"></span></div>
@@ -105,21 +117,22 @@
                     <span id="res-logic"></span>
                 </div>
 
-                <div style="margin-top:40px; border-top:1px solid #eee; padding-top:15px; font-size:12px; color:#666; text-align:center;">
-                    LexIndia Digital Advisory | Consulted & Advised by Akilan<br>
-                    Developed by Gemini 3 AI for the International Organisation of Peace.
+                <div style="margin-top:50px; border-top:1px solid #ccc; padding-top:20px; font-size:12px; color:#444; text-align:center; line-height:1.5;">
+                    <b>LexIndia Digital Advisory Portal</b><br>
+                    Consulted & Advised by Akilan, Founder of International Organisation of Peace<br>
+                    Developed by Gemini 3 AI Core Intelligence.
                 </div>
             </div>
-            <div class="btn-row" style="background:#f1f5f9; padding:15px; border-radius:8px;">
-                <button class="btn" style="background:#334155; color:white;" onclick="exportPNG()">SAVE PNG</button>
-                <button class="btn" style="background:#334155; color:white;" onclick="exportPDF()">SAVE PDF</button>
+            <div class="btn-row" style="background:#f8f9fa; padding:20px; border:1px solid #ddd; margin-top:20px;">
+                <button class="btn" style="background:#003366; color:white;" onclick="exportPNG()">SAVE PNG</button>
+                <button class="btn" style="background:#003366; color:white;" onclick="exportPDF()">SAVE PDF</button>
             </div>
         </div>
     </div>
 
     <div id="constitution" class="page">
         <div class="card">
-            <h2 id="txt-const-h" style="border-bottom:3px solid var(--saffron); padding-bottom:10px;">Constitution of India</h2>
+            <h2 id="txt-const-h" style="border-bottom:3px solid var(--navy); padding-bottom:10px; color:var(--gov-blue);">Constitution of India</h2>
             <div id="const-list"></div>
         </div>
     </div>
@@ -127,17 +140,16 @@
     <div id="about" class="page">
         <div class="card" style="text-align:center;">
             <h2 id="txt-about-h">International Organisation of Peace</h2>
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Emblem_of_India.svg/1200px-Emblem_of_India.svg.png" height="100" style="margin:20px;">
-            <p id="txt-about-p1" style="font-size:18px; line-height:1.6;"></p>
-            <div style="background:var(--ash); padding:20px; border-radius:10px; margin:20px 0; border-left:10px solid var(--navy);">
-                <h3 id="txt-founder-h">Founder & Advisor</h3>
-                <h2 style="color:var(--navy); margin:5px 0;">AKILAN</h2>
-                <p id="txt-founder-p"></p>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Emblem_of_India.svg/1200px-Emblem_of_India.svg.png" height="120" style="margin:25px;">
+            <p id="txt-about-p1" style="font-size:18px; line-height:1.8; color:#1a202c;"></p>
+            <div style="background:#f1f5f9; padding:30px; border-radius:2px; margin:25px 0; border:1px solid #cbd5e1; border-left:12px solid var(--gov-blue);">
+                <h3 id="txt-founder-h" style="color:var(--gov-blue); text-transform:uppercase; font-size:16px;">Founder & Advisor</h3>
+                <h2 style="color:#000; margin:8px 0; font-size:28px; letter-spacing:1px;">AKILAN</h2>
+                <p id="txt-founder-p" style="color:#475569;"></p>
             </div>
-            <p id="txt-about-p2" style="font-style:italic; color:#64748b;"></p>
-            <div style="font-size:14px; margin-top:30px; border-top:1px solid #eee; padding-top:10px;">
-                <b>System:</b> LexIndia AI Core (Gemini 3)<br>
-                <b>Security:</b> 256-bit Session Wiping Active
+            <p id="txt-about-p2" style="font-style:italic; color:#475569; padding:0 20px;"></p>
+            <div style="font-size:13px; margin-top:40px; border-top:1px solid #e2e8f0; padding-top:15px; color:#94a3b8;">
+                <b>System:</b> LexIndia AI Core (Gemini 3) | <b>Security:</b> 256-bit Session Encryption
             </div>
         </div>
     </div>
@@ -145,13 +157,13 @@
 </div>
 
 <footer>
+    <b>GOVERNMENT OF INDIA ADVISORY FORMAT</b><br>
     © 2026 International Organisation of Peace. All Rights Reserved.<br>
     "Justice for all, Peace forever."
 </footer>
 
 <script>
     const API_KEYS = [
-        "AIzaSyBnnVQ-dW7CGBJSN3VrmNo34R1yF1B8RlA",
         "AIzaSyAhbbfrY_7SOYkzuj6Oe7amUkH3QhBOAWs",
         "AIzaSyDyf33OzzxHnSIg9pGVyz2l2-PxPSg9ZJ0",
         "AIzaSyAdZLAbL2igputem5J6nVcmpeXXmkaezCw"
@@ -269,7 +281,7 @@
             document.getElementById('res-logic').innerText = json.l;
             
             document.getElementById('legal-report').style.display = 'block';
-        } catch (e) { alert("Rate limit or Error. Try clicking analyze again."); }
+        } catch (e) { alert("Key Limit or Service Busy. Please click Analyze again."); }
         finally { document.getElementById('loader').style.display = 'none'; }
     }
 
@@ -294,12 +306,12 @@
         doc.text("LEXINDIA SOVEREIGN ADVISORY", 105, 20, {align: "center"});
         doc.setFontSize(12);
         doc.text("Title: " + document.getElementById('res-title').innerText, 20, 40);
-        doc.text("BNS Section: " + document.getElementById('res-bns').innerText, 20, 50);
-        doc.text("IPC Reference: " + document.getElementById('res-ipc').innerText, 20, 60);
+        doc.text("BNS: " + document.getElementById('res-bns').innerText, 20, 50);
+        doc.text("IPC: " + document.getElementById('res-ipc').innerText, 20, 60);
         doc.setFont("times", "normal");
         const splitLogic = doc.splitTextToSize(document.getElementById('res-logic').innerText, 170);
         doc.text(splitLogic, 20, 80);
-        doc.save('LexIndia_Legal_Case.pdf');
+        doc.save('LexIndia_Report.pdf');
     }
 
     setLang('en');
